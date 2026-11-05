@@ -1,0 +1,16 @@
+# mdBook configuration for the gbook export. @@NAMES@@ are filled by scripts/export-public.sh from the names file.
+[book]
+title = "gbook: mainline Linux on the Dell XPS Googlebook (mica)"
+authors = ["m3"]
+language = "en"
+src = "src"
+
+[build]
+build-dir = "book"
+# A SUMMARY.md entry without a file is an error, not a new empty page.
+create-missing = false
+
+[output.html]
+site-url = "https://gbook.m3.engineer/"
+git-repository-url = "https://github.com/m3-engineer/gbook-docs"
+no-section-label = true

@@ -1,0 +1,35 @@
+# Enabled DT compatibles in the -el2 DTB whose drivers are not built in, so their nodes never bind (the initramfs loads
+# no modules). Checked by scripts/dt-kconfig-map.py --gaps, run from scripts/package-image.sh: a new gap or a stale
+# line fails the packaging. Format: "<compatible>  <reason>". Retro 2026-11-03 (SPI_QCOM_GENI=m hid the EC for 12 boots).
+# A compatible leaves this file in the same commit as the fragment that builds its driver in.
+
+# No driver names the compatible (structural nodes, or drivers matched another way, e.g. AMBA peripheral IDs).
+qcom,oryon                        CPU nodes, no driver
+shared-dma-pool                   reserved-memory pool, handled by the core
+usb-c-connector                   connector nodes, read by pmic_glink and the muxes
+arm,coresight-stm                 CoreSight (AMBA ID match); tracing is out of scope
+qcom,coresight-tpda               CoreSight; tracing is out of scope
+qcom,coresight-tpdm               CoreSight; tracing is out of scope
+arm,coresight-dynamic-funnel      CoreSight; tracing is out of scope
+arm,coresight-dynamic-replicator  CoreSight; tracing is out of scope
+arm,coresight-tmc                 CoreSight; tracing is out of scope
+arm,coresight-cti                 CoreSight; tracing is out of scope
+arm,coresight-dummy-sink          CoreSight; tracing is out of scope
+qcom,sa8775p-ctcu                 CoreSight; tracing is out of scope
+cache                             L2 cache nodes; the symbols are unrelated name matches
+
+# Audio (M3 ticket 10, kernel/mica-audio.config, 2026-11-04): the card, GPR, APM, PRM, the WSA and VA macros, the LPI
+# pins, the SoundWire masters and the LPASS clock controllers are built in. The RX and TX macros feed the WCD938x
+# headset codec, which stock disables (docs/research/9345-dts-diff.md), so they stay out.
+qcom,sm8550-lpass-rx-macro        audio: RX macro, headset path (WCD938x disabled on stock mica)
+qcom,sm8550-lpass-tx-macro        audio: TX macro, headset path (WCD938x disabled on stock mica)
+
+# Not needed for the first-boot work yet (leads, 2026-11-03).
+qcom,fastrpc                      DSP compute offload; no userspace
+qcom,trng                         hardware RNG (=m)
+qcom,rpmh-stats                   RPMh sleep statistics
+qcom,pmk8350-pon                  PMIC power key and reboot reasons (=m): lead
+qcom,pmk8350-rtc                  PMIC RTC (=m); the EC RTC is rtc0 since attempt -14
+qcom,spmi-sdam                    PMIC NVMEM
+qcom,spmi-adc5-gen3               PMIC ADC (=n)
+qcom,spmi-temp-alarm              PMIC temperature alarms (=m): lead

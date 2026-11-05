@@ -1,0 +1,6 @@
+# Known parked failures (retro-8/04): one POSIX extended regex per line, a TAB, then the docs/status.md row it belongs
+# to and the date it was parked. scripts/attempt.sh watch prints the first line a pattern matches in each boot as
+# "KNOWN: <row>: <line>" and drops the rest of that boot's matches; a line no pattern matches comes through in full.
+# A boot starts at "GBOOK: begin" or when a kernel timestamp goes backwards (scripts/known_failures.awk). Add a line
+# when a row is parked with a failure that reaches the console on every boot; remove it when the row leaves "parked".
+(i2c_hid_of 0-0010|(hid-generic|hid-multitouch) 0018:[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}): (probe with driver [a-z0-9_-]+ failed with error -22|can't add hid device: -22)	Touchscreen (I2C HID), parked 2026-11-03

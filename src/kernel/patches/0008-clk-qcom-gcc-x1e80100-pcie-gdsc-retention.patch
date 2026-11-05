@@ -1,0 +1,105 @@
+Status: FROMLIST [6/7] (Krishna Chaitanya Chundru) <20260102-pci_gdsc_fix-v1-6-b17ed3d175bc@oss.qualcomm.com>, changes requested on linux-arm-msm patchwork; regenerated against a804c57; checked 2026-11-04
+gbook local copy (ADR 0007), added 2026-11-04: the change of Krishna Chaitanya Chundru's (Qualcomm)
+"[PATCH 6/7] clk: qcom: gcc-x1e80100: Do not turn off PCIe GDSCs during gdsc_disable()" (LKML 2026-01-02,
+https://lkml.rescloud.iu.edu/2601.0/00459.html; Reviewed-by Bryan O'Donoghue for the series in 00462; Konrad Dybcio
+asked whether turning the GDSCs off is not the goal, 00569; not applied at the pin). Regenerated against a804c57
+(its hunks are offset there), same eight .pwrsts lines. Why here: suspend-test attempts 2026-11-04-6 and -7 reset
+on resume from s2idle right after "gcc_pcie_6a_gdsc status stuck at 'off'" (-6) and, with PCIe 6a disabled,
+"gcc_pcie_4_gdsc status stuck at 'off'" (-7). Not ours to send upstream.
+
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Krishna Chaitanya Chundru <krishna.chundru@xxxxxxxxxxxxxxxx> (address masked in the archive)
+Date: Fri, 2 Jan 2026 04:45:12 -0500
+Subject: [PATCH] clk: qcom: gcc-x1e80100: Do not turn off PCIe GDSCs during
+ gdsc_disable()
+
+With PWRSTS_OFF_ON, PCIe GDSCs are turned off during gdsc_disable(). This
+can happen during scenarios such as system suspend and breaks the resume
+of PCIe controllers from suspend.
+
+So use PWRSTS_RET_ON to indicate the GDSC driver to not turn off the GDSCs
+during gdsc_disable() and allow the hardware to transition the GDSCs to
+retention when the parent domain enters low power state during system
+suspend.
+
+Fixes: 161b7c401f4b ("clk: qcom: Add Global Clock controller (GCC) driver for X1E80100")
+---
+ drivers/clk/qcom/gcc-x1e80100.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/clk/qcom/gcc-x1e80100.c b/drivers/clk/qcom/gcc-x1e80100.c
+index 8c146d6..fefacae 100644
+--- a/drivers/clk/qcom/gcc-x1e80100.c
++++ b/drivers/clk/qcom/gcc-x1e80100.c
+@@ -6552,7 +6552,7 @@ static struct gdsc gcc_pcie_0_tunnel_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_0_tunnel_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 
+@@ -6564,7 +6564,7 @@ static struct gdsc gcc_pcie_1_tunnel_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_1_tunnel_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 
+@@ -6576,7 +6576,7 @@ static struct gdsc gcc_pcie_2_tunnel_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_2_tunnel_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 
+@@ -6588,7 +6588,7 @@ static struct gdsc gcc_pcie_3_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_3_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 
+@@ -6612,7 +6612,7 @@ static struct gdsc gcc_pcie_4_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_4_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 
+@@ -6636,7 +6636,7 @@ static struct gdsc gcc_pcie_5_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_5_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 
+@@ -6672,7 +6672,7 @@ static struct gdsc gcc_pcie_6a_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_6a_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 
+@@ -6684,7 +6684,7 @@ static struct gdsc gcc_pcie_6b_gdsc = {
+ 	.pd = {
+ 		.name = "gcc_pcie_6b_gdsc",
+ 	},
+-	.pwrsts = PWRSTS_OFF_ON,
++	.pwrsts = PWRSTS_RET_ON,
+ 	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | VOTABLE,
+ };
+ 

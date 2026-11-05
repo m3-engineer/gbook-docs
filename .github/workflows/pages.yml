@@ -1,0 +1,46 @@
+# GitHub Pages build for the gbook export. scripts/export-public.sh in the gbook repository places this file at
+# .github/workflows/pages.yml; edit gbook's site/workflow/pages.yml, not the copy.
+# Every action is pinned to a commit SHA (resolved through the GitHub API on 2026-11-05; the tag is in the comment).
+# mdbook 0.5.4 comes from its GitHub release tarball with the sha256 pinned below (computed 2026-11-05).
+# One build per release tag of gbook (ADR 0011): the owner pushes the export to main once per tag.
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install mdbook 0.5.4
+        run: |
+          set -eu
+          curl -sSL -o mdbook.tar.gz https://github.com/rust-lang/mdBook/releases/download/v0.5.4/mdbook-v0.5.4-x86_64-unknown-linux-gnu.tar.gz
+          echo "3f28de05dafca9d0f2eab99c662116b0e37b89b1d96a08f8f430b9eeae958cd7  mdbook.tar.gz" | sha256sum -c -
+          tar -xzf mdbook.tar.gz
+          ./mdbook --version
+      - name: Redaction gate (generic identifier classes)
+        run: sh gate.sh src
+      - name: Build the book
+        run: ./mdbook build
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: book
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

@@ -1,0 +1,19 @@
+# Local kernel patches
+
+Applied by the build onto torvalds `a804c57` in name order. Line 1 of each file is its status (the ChromiumOS words,
+`LOCAL` for `CHROMIUM`: decision 0007). The four `LOCAL gbook` patches stay unpublished until milestone M5
+(decision 0010); their status lines are listed.
+
+| Patch | Status | File |
+|---|---|---|
+| `0001-drm-panel-edp-add-lgd-0x0804.patch` | LOCAL gbook (not sent: the EDID gives only part of the model name), checked 2026-11-04 | held until M5 |
+| `0002-drm-msm-a6xx-cxpd-device-link-stateless.patch` | FROMLIST [RFT 1/5] of "drm/msm: Attach a driver to GMU" v1 (Akhil P Oommen) <20260513-gmu-sync-state-fix-v1-1-6e33e6aa9b4f@oss.qualcomm.com>; v2 has it as 2/8 <20261030-gmu-sync-state-fix-v2-0-89d3082d97af@oss.qualcomm.com>; copy: Omarchy linux-omarchy-aarch64 (below); checked 2026-11-04 | [0002-drm-msm-a6xx-cxpd-device-link-stateless.patch](0002-drm-msm-a6xx-cxpd-device-link-stateless.patch) |
+| `0003-drm-msm-centralize-standalone-drm-check.patch` | FROMLIST [RFT 2/5] of "drm/msm: Attach a driver to GMU" v1 (Akhil P Oommen) <20260513-gmu-sync-state-fix-v1-2-6e33e6aa9b4f@oss.qualcomm.com>; dropped in v2 <20261030-gmu-sync-state-fix-v2-0-89d3082d97af@oss.qualcomm.com>; copy: Omarchy linux-omarchy-aarch64 (below); checked 2026-11-04 | [0003-drm-msm-centralize-standalone-drm-check.patch](0003-drm-msm-centralize-standalone-drm-check.patch) |
+| `0004-drm-msm-adreno-fix-drvdata-typecast.patch` | FROMLIST [RFT 3/5] of "drm/msm: Attach a driver to GMU" v1 (Akhil P Oommen) <20260513-gmu-sync-state-fix-v1-3-6e33e6aa9b4f@oss.qualcomm.com>; v2 has it as 1/8 <20261030-gmu-sync-state-fix-v2-0-89d3082d97af@oss.qualcomm.com>; copy: Omarchy linux-omarchy-aarch64 (below); checked 2026-11-04 | [0004-drm-msm-adreno-fix-drvdata-typecast.patch](0004-drm-msm-adreno-fix-drvdata-typecast.patch) |
+| `0005-drm-msm-component-model-for-standalone-gpu.patch` | FROMLIST [RFT 4/5] of "drm/msm: Attach a driver to GMU" v1 (Akhil P Oommen) <20260513-gmu-sync-state-fix-v1-4-6e33e6aa9b4f@oss.qualcomm.com>; v2 has it as 5/8 <20261030-gmu-sync-state-fix-v2-0-89d3082d97af@oss.qualcomm.com>; copy: Omarchy linux-omarchy-aarch64 (below); checked 2026-11-04 | [0005-drm-msm-component-model-for-standalone-gpu.patch](0005-drm-msm-component-model-for-standalone-gpu.patch) |
+| `0006-drm-msm-attach-a-driver-to-the-gmu.patch` | FROMLIST [RFT 5/5] of "drm/msm: Attach a driver to GMU" v1 (Akhil P Oommen) <20260513-gmu-sync-state-fix-v1-5-6e33e6aa9b4f@oss.qualcomm.com>; v2 has it as 6/8 <20261030-gmu-sync-state-fix-v2-0-89d3082d97af@oss.qualcomm.com>; copy: Omarchy linux-omarchy-aarch64 (below), ported to v7.2.8 by Brandon Williams; checked 2026-11-04 | [0006-drm-msm-attach-a-driver-to-the-gmu.patch](0006-drm-msm-attach-a-driver-to-the-gmu.patch) |
+| `0007-drm-msm-gmu-optional-and-lock-init.patch` | LOCAL Brandon Williams via Omarchy (third-party fix-up on 0002-0006), https://github.com/omacom/omarchy-pkgs/tree/master/pkgbuilds/linux-omarchy-aarch64, checked 2026-11-04 | [0007-drm-msm-gmu-optional-and-lock-init.patch](0007-drm-msm-gmu-optional-and-lock-init.patch) |
+| `0008-clk-qcom-gcc-x1e80100-pcie-gdsc-retention.patch` | FROMLIST [6/7] (Krishna Chaitanya Chundru) <20260102-pci_gdsc_fix-v1-6-b17ed3d175bc@oss.qualcomm.com>, changes requested on linux-arm-msm patchwork; regenerated against a804c57; checked 2026-11-04 | [0008-clk-qcom-gcc-x1e80100-pcie-gdsc-retention.patch](0008-clk-qcom-gcc-x1e80100-pcie-gdsc-retention.patch) |
+| `0009-clk-qcom-gcc-x1e80100-pcie-phy-gdsc-retention.patch` | LOCAL gbook (ours; not sent: upstream hold until M5), checked 2026-11-04 | held until M5 |
+| `0010-soundwire-qcom-rearm-enumerator-after-clock-stop.patch` | LOCAL gbook (ours; not sent: upstream hold until M5), checked 2026-11-05 | held until M5 |
+| `0011-asoc-wsa884x-clk-stop-mode1.patch` | LOCAL gbook (ours; not sent: upstream hold until M5), checked 2026-11-05 | held until M5 |

@@ -1,0 +1,10 @@
+# Post-overlay fixups for x1e80100-google-mica-el2.dtb, applied by scripts/build-dtb.sh after x1-el2.dtbo.
+# Overlays cannot delete properties, so mica's differences from mainline's x1-el2.dtso live here.
+# Format: delete-property <__symbols__ label> <property>
+#
+# The stock mica tree has no iommus on either PAS node (dumps/recovery-16471258/dtbo/entry00-base.dts:5513
+# remoteproc-adsp@6800000 and :12925 remoteproc-cdsp@32300000). With iommus set, qcom_q6v5_pas asks TrustZone for a
+# resource table (qcom_pas_parse_firmware, a804c57), and mica's TrustZone answers -EIO, so the ADSP stays offline
+# (attempt 2026-11-02-4, docs/recon/usb-2026-11-02.md).
+delete-property remoteproc_adsp iommus
+delete-property remoteproc_cdsp iommus
